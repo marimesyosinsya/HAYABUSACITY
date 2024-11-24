@@ -1,6 +1,3 @@
 h1 {
-  background-color: blue;
-  color: white; /* 背景に合わせて文字色を白に設定 */
-  padding: 10px; /* 見た目を整えるためにパディングを追加 */
-  border-radius: 5px; /* 角を丸くしてデザインを柔らかく */
+color: blue;
 }
