@@ -25,6 +25,13 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #f9f9f9;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         section h2 {
             color: #333;
@@ -33,7 +40,12 @@
             margin-bottom: 10px;
         }
         .hidden {
-            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .hidden.open {
+            max-height: 1000px; /* 適切な値に調整 */
         }
         footer {
             text-align: center;
@@ -63,12 +75,12 @@
     <main>
         <section>
             <h2>重要</h2>
-               <article>
+            <article>
                 <h3>隼市終了の可能性</h3>
-                <p><s>大変高くなっております。もうけんかになるのやだ。親にバレるのもヤダ。もう泣きたい。やめたい。もうヤダ、やだやだやだやだやだやだやだやだやだやだやだやだやだ</s></p>
+                <p><s>大変高くなっております。</s></p>
                 <p><strong>この記事は隼市捜査当局によって削除されました</strong></p>
-               </article>
-               <article>
+            </article>
+            <article>
                 <h3>闇バイトについて</h3>
                 <p>『石を壊すだけのバイト』という闇バイトが現在隼市内で行われている模様です。<br>
                 公認と偽ることもあるため、注意してください。</p>
@@ -80,9 +92,9 @@
             <button onclick="toggleContent(this)">表示</button>
             <div class="hidden">
                 <article>
-                    <p>隼交番前駅のロータリー完成</p>
+                    <p>隼交番前駅のロータリー完成(2024/12/30 22:02)</p>
                 </article>
-                <article>
+<article>
                     <p>大納言線の路線切換により北鬼駅に大納言線が通るように
                         <br>
                         これの影響により隼環状線,商店街線の線路切換を行った。(2024/12/30 18:54)</p>
@@ -304,6 +316,7 @@
        </section>
     </main>
 
+
     <footer>
         <p>© 2024 隼県公式サイト. All Rights Reserved.</p>
     </footer>
@@ -311,14 +324,23 @@
     <script>
         function toggleContent(button) {
             const content = button.nextElementSibling;
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                button.textContent = '隠す';
-            } else {
-                content.classList.add('hidden');
-                button.textContent = '表示';
-            }
+            content.classList.toggle('open');
+            button.textContent = content.classList.contains('open') ? '隠す' : '表示';
         }
+
+        // スクロールアニメーション
+        function handleScroll() {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('load', handleScroll);
     </script>
 </body>
 </html>
